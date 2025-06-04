@@ -1,0 +1,4 @@
+[submodule "CyC_inference"]
+	path = CyC_inference
+	url = https://github.com/cybercortex-robotics/CyC_inference.git
+	branch = main
