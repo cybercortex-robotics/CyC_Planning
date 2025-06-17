@@ -150,7 +150,7 @@ bool CVehicleMissionPlanner::process()
         csv::reader csv_reader;
         if (!csv_reader.open(path))
         {
-            spdlog::error("Filter [{}-{}]: CVehicleMissionPlanner: failed to open csv {}", getFilterKey().nCoreID, getFilterKey().nFilterID, path);
+            spdlog::error("Filter [{}-{}]: {}: failed to open csv {}", getFilterKey().nCoreID, getFilterKey().nFilterID, typeid(*this).name(), path);
             return false;
         }
 
