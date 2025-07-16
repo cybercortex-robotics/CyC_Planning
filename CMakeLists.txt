@@ -54,7 +54,9 @@ include_directories(CyC_inference/include/core)
 # Include 3rdParty library directories
 link_directories(${CyC_THIRD_PARTY_LIBRARY_DIRECTORIES})
 
-# Hardware sensory filters
+# Filters
+add_cyc_filter(Filter_Environment_Map CyC_Perception/src/Filter_Environment_Map)
+add_cyc_filter(Filter_Visualization_Octoviz CyC_Visualization/src/Filter_Visualization_Octoviz)
 add_cyc_filter(Filter_Planning_DroneLocalPlanner src/Filter_Planning_DroneLocalPlanner)
 add_cyc_filter(Filter_Planning_DroneWaypoints src/Filter_Planning_DroneWaypoints)
 add_cyc_filter(Filter_Planning_LocalPlanner src/Filter_Planning_LocalPlanner)

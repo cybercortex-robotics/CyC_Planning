@@ -19,7 +19,6 @@ public:
     bool disable() override;
 
 private:
-    void init();
     bool process() override;
     void loadFromDatastream(const std::string& datastream_entry, const std::string& db_root_path) override;
 

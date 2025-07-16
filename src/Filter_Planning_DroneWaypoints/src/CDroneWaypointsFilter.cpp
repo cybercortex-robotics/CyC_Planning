@@ -3,19 +3,30 @@
 
 #include "CDroneWaypointsFilter.h"
 
+#define DYNALO_EXPORT_SYMBOLS
+#include <dynalo/symbol_helper.hpp>
+
+DYNALO_EXPORT CyC_FILTER_TYPE DYNALO_CALL getFilterType()
+{
+    CycDatablockKey key;
+    return CDroneWaypointsFilter(key).getFilterType();
+}
+
+DYNALO_EXPORT CCycFilterBase* DYNALO_CALL createFilter(const ConfigFilterParameters _params)
+{
+    return new CDroneWaypointsFilter(_params);
+}
+
 CDroneWaypointsFilter::CDroneWaypointsFilter(CycDatablockKey key) :
     CCycFilterBase(key)
 {
-    init();
+    // Assign the output data type
+    setFilterType("CyC_DRONE_WAYPOINTS_PLANNER_FILTER_TYPE");
+    m_OutputDataType = CyC_LANDMARKS;
 }
 
 CDroneWaypointsFilter::CDroneWaypointsFilter(const ConfigFilterParameters& params) :
     CCycFilterBase(params)
-{
-    init();
-}
-
-void CDroneWaypointsFilter::init()
 {
     // Assign the output data type
     setFilterType("CyC_DRONE_WAYPOINTS_PLANNER_FILTER_TYPE");
@@ -55,14 +66,25 @@ bool CDroneWaypointsFilter::enable()
     }
     else
     {
-        if (!CFileUtils::FileExist(m_CustomParameters.at("waypoints_map").c_str())) // needed for HDD images ?
+        std::string waypoints_map;
+        if (!m_CustomParameters["waypoints_map"].empty())
         {
-            log_error("ERROR waypoints_map file does not exist.Disabling the CDroneWaypointsFilter filter.");
+            waypoints_map = fs::path(getGlobalBasePath()) / fs::path(m_CustomParameters.at("waypoints_map"));
+
+            if (!CFileUtils::FileExist(waypoints_map.c_str()))
+            {
+                log_error("ERROR waypoints_map file does not exist. Disabling the CDroneWaypointsFilter filter.");
+                return false;
+            }
+        }
+        else
+        {
+            log_error("ERROR waypoints_map file undefined. Disabling the CDroneWaypointsFilter filter.");
             return false;
         }
 
         // Load waypoints map
-        m_WaypointsPlanner.loadWaypoints(m_CustomParameters.at("waypoints_map"));
+        m_WaypointsPlanner.loadWaypoints(waypoints_map);
     }
 
     log_info("CDroneWaypointsFilter::enable() successful");

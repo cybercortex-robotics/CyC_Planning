@@ -36,8 +36,7 @@ int main(int argc, char** argv)
 
     waypoints_planner = std::make_unique<CWaypointsPlanner>(argv[1]);
 
-    CycLandmarks map;
-    waypoints_planner->getMap(map);
+    CycLandmarks map = waypoints_planner->getLandmarks();
     std::cout << "Number of paths: " << map.size() << std::endl;
     for (const auto& path : map)
     {

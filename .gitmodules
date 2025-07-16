@@ -1,3 +1,11 @@
+[submodule "CyC_Perception"]
+	path = CyC_Perception
+	url = https://github.com/cybercortex-robotics/CyC_Perception.git
+	branch = main
+[submodule "CyC_Visualization"]
+	path = CyC_Visualization
+	url = https://github.com/cybercortex-robotics/CyC_Visualization.git
+	branch = main
 [submodule "CyC_inference"]
 	path = CyC_inference
 	url = https://github.com/cybercortex-robotics/CyC_inference.git
